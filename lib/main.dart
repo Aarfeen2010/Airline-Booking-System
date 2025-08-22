@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:travelex/Auth/login_page.dart';
 import 'package:travelex/Auth/onboarding_screen.dart';
+import 'package:travelex/Auth/signup_page.dart';
 import 'package:travelex/Auth/splash_screen.dart';
 
 void main() {
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           ),
-          home: SplashScreen(),
+          home: SignUpPage(),
         );
       },
     );

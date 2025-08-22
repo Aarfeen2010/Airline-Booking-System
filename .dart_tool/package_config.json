@@ -146,6 +146,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "page_transition",
+      "rootUri": "file:///C:/Users/imran/AppData/Local/Pub/Cache/hosted/pub.dev/page_transition-2.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
       "name": "path",
       "rootUri": "file:///C:/Users/imran/AppData/Local/Pub/Cache/hosted/pub.dev/path-1.9.1",
       "packageUri": "lib/",
@@ -284,7 +290,7 @@
       "languageVersion": "3.7"
     }
   ],
-  "generated": "2025-08-21T13:17:56.370852Z",
+  "generated": "2025-08-21T16:22:54.318711Z",
   "generator": "pub",
   "generatorVersion": "3.7.2",
   "flutterRoot": "file:///C:/Users/imran/Downloads/flutter_windows_3.29.3-stable/flutter",

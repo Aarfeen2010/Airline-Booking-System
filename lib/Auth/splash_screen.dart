@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:travelex/Auth/onboarding_screen.dart';
+import 'package:travelex/colors.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -24,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff4FC3F7),
+      backgroundColor: AppColors.primary,
       body: Container(
         height: 100.h,
         child: Center(child: Image.asset("assets/images/travelex_logo.png")),
