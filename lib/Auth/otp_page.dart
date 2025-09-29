@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:travelex/Auth/create_password.dart';
 import 'package:travelex/Auth/splash_screen.dart';
 import 'package:travelex/Widget/Auth/Login/appbar_widget.dart';
@@ -66,14 +67,11 @@ class _OtpPageState extends State<OtpPage> {
                       style: TextStyle(fontSize: 18, color: AppColors.text),
                     ),
                     SizedBox(height: 20),
-                    Padding(
-                      padding: EdgeInsets.all(20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: List.generate(
-                          6,
-                          (index) => _otpTextField(context, index),
-                        ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: List.generate(
+                        6,
+                        (index) => _otpTextField(context, index),
                       ),
                     ),
                     SizedBox(height: 20),
@@ -114,32 +112,34 @@ class _OtpPageState extends State<OtpPage> {
   }
 
   Widget _otpTextField(BuildContext context, int index) {
-    return SizedBox(
-      width: 50,
-      child: TextField(
-        controller: _controllers[index],
-        keyboardType: TextInputType.number,
-        textAlign: TextAlign.center,
-        maxLength: 1,
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        decoration: InputDecoration(
-          counterText: "",
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey, width: 2),
+    return Expanded(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 2),
+        child: TextField(
+          controller: _controllers[index],
+          keyboardType: TextInputType.number,
+          textAlign: TextAlign.center,
+          maxLength: 1,
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          decoration: InputDecoration(
+            counterText: "",
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey, width: 2),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.blue, width: 2),
+            ),
           ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.blue, width: 2),
-          ),
+          onChanged: (value) {
+            if (value.length == 1 && index < 5) {
+              FocusScope.of(context).nextFocus();
+            }
+            if (value.isEmpty && index > 0) {
+              FocusScope.of(context).previousFocus();
+            }
+            _checkOtpFilled();
+          },
         ),
-        onChanged: (value) {
-          if (value.length == 1 && index < 5) {
-            FocusScope.of(context).nextFocus();
-          }
-          if (value.isEmpty && index > 0) {
-            FocusScope.of(context).previousFocus();
-          }
-          _checkOtpFilled();
-        },
       ),
     );
   }

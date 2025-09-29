@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:travelex/Auth/forgot_password_page.dart';
 import 'package:travelex/Auth/login_page.dart';
+import 'package:travelex/Home/home.dart';
 import 'package:travelex/Widget/Auth/Login/auth_text_field.dart';
 import 'package:travelex/Widget/Text/roboto.dart';
 import 'package:travelex/colors.dart';
@@ -132,7 +133,13 @@ class _SignUpPageState extends State<SignUpPage> {
                             content: Text('Account created successfully'),
                           ),
                         );
-                        Navigator.pushReplacementNamed(context, "/homepage");
+                        Navigator.pushReplacement(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.fade,
+                            child: Home(),
+                          ),
+                        );
                       },
                       child: Text(
                         'Sign Up',

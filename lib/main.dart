@@ -7,6 +7,8 @@ import 'package:travelex/Auth/onboarding_screen.dart';
 import 'package:travelex/Auth/otp_page.dart';
 import 'package:travelex/Auth/signup_page.dart';
 import 'package:travelex/Auth/splash_screen.dart';
+import 'package:travelex/Home/home.dart';
+import 'package:travelex/Home/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           ),
-          home: ForgotPasswordPage(),
+          home: Home(),
         );
       },
     );
