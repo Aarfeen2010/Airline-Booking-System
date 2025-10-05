@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:travelex/Auth/forgot_password_page.dart';
 import 'package:travelex/Auth/signup_page.dart';
+import 'package:travelex/Home/home.dart';
 import 'package:travelex/Widget/Auth/Login/appbar_widget.dart';
 import 'package:travelex/Widget/Auth/Login/auth_text_field.dart';
 import 'package:travelex/Widget/Auth/Login/elevated_button_widget.dart';
@@ -75,12 +77,12 @@ class _LoginPageState extends State<LoginPage> {
                       obscureText: false,
                       labelText: "Email",
                       iconColor: AppColors.accent,
-                      fillColor: AppColors.text.withOpacity(0.1),
+                      fillColor: AppColors.text.withOpacity(0.7),
                       icon: Icons.alternate_email,
                     ),
                     SizedBox(height: 20),
                     AuthTextField(
-                      fillColor: AppColors.text.withOpacity(0.1),
+                      fillColor: AppColors.text.withOpacity(0.7),
                       iconColor: AppColors.accent,
                       keyboardType: TextInputType.text,
                       labelText: 'Password',
@@ -92,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                       buttonText: "Login",
                       snackbarText: 'Logged in successfully',
                       onPressed: () {
-                        Navigator.pushReplacementNamed(context, "/homepage");
+                        Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: Home()));
                       },
                     ),
                     SizedBox(height: 15),
@@ -126,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(height: 20),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, '/forgot_password');
+                        Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ForgotPasswordPage()));
                       },
                       child: Roboto(
                         text: "Forgot Your Password?",

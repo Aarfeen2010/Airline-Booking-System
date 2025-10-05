@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/travelex.iml" filepath="$PROJECT_DIR$/travelex.iml" />
-      <module fileurl="file://$PROJECT_DIR$/android/travelex_android.iml" filepath="$PROJECT_DIR$/android/travelex_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/travelex_fixed.iml" filepath="$PROJECT_DIR$/travelex_fixed.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/travelex_fixed_android.iml" filepath="$PROJECT_DIR$/android/travelex_fixed_android.iml" />
     </modules>
   </component>
 </project>

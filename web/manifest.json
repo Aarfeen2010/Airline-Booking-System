@@ -1,6 +1,6 @@
 {
-    "name": "travelex",
-    "short_name": "travelex",
+    "name": "travelex_fixed",
+    "short_name": "travelex_fixed",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

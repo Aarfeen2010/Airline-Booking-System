@@ -26,20 +26,20 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
-  City? selectedFromCity;
-  City? selectedToCity;
+  Airport? selectedFromCity;
+  Airport? selectedToCity;
   DateTime? selectedDate;
   int passengerCount = 1;
 
-  final List<City> cities = [
-    City("New York", "🇺🇸"),
-    City("London", "🇬🇧"),
-    City("Dubai", "🇦🇪"),
-    City("Paris", "🇫🇷"),
-    City("Karachi", "🇵🇰"),
-    City("Istanbul", "🇹🇷"),
-    City("Tokyo", "🇯🇵"),
-  ];
+  final List<Airport> cities = [
+  Airport(city: "New York", flag: "🇺🇸", name: "JFK Airport", code: "JFK"),
+  Airport(city: "London", flag: "🇬🇧", name: "Heathrow", code: "LHR"),
+  Airport(city: "Dubai", flag: "🇦🇪", name: "Dubai Intl", code: "DXB"),
+  Airport(city: "Paris", flag: "🇫🇷", name: "Charles de Gaulle", code: "CDG"),
+  Airport(city: "Karachi", flag: "🇵🇰", name: "Jinnah Intl", code: "KHI"),
+  Airport(city: "Istanbul", flag: "🇹🇷", name: "Istanbul Airport", code: "IST"),
+  Airport(city: "Tokyo", flag: "🇯🇵", name: "Haneda", code: "HND"),
+];
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -124,16 +124,16 @@ class _HomePageState extends State<HomePage> {
 /// Home Content Widget
 /// ---------------------------
 class _HomeContent extends StatefulWidget {
-  final City? fromCity;
-  final City? toCity;
-  final ValueChanged<City?> onFromChanged;
-  final ValueChanged<City?> onToChanged;
+  final Airport? fromCity;
+  final Airport? toCity;
+  final ValueChanged<Airport?> onFromChanged;
+  final ValueChanged<Airport?> onToChanged;
   final VoidCallback onDateTap;
   final DateTime? selectedDate;
   final int passengerCount;
   final VoidCallback onAddPassenger;
   final VoidCallback onRemovePassenger;
-  final List<City> cities;
+  final List<Airport> cities;
 
   const _HomeContent({
     required this.fromCity,
@@ -355,39 +355,37 @@ class _HomeContentState extends State<_HomeContent> {
           _HomeContent._sectionTitle("Travel Deals"),
           _HomeContent._horizontalDeals([
             GestureDetector(
-              onTap: () {
-                setState(() {
-                  final arrivalAirport = Airport(
-                    "ISB",
-                    "Islamabad International Airport ",
-                    "Islamabad",
-                  );
+  onTap: () {
+    final dubai = widget.cities.firstWhere(
+      (a) => a.city == "Dubai",
+      orElse: () => widget.cities.first,
+    );
 
-                  final departureAirport = Airport(
-                    "KDU",
-                    "Skardu Airport",
-                    "Skardu",
-                  );
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return BookingScreen(
-                          arrival: arrivalAirport,
-                          departure: departureAirport,
-                        );
-                      },
-                    ),
-                  );
-                });
-              },
+    if (widget.fromCity != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BookingScreen(
+            arrival: dubai,                // always Dubai for this deal
+            departure: widget.fromCity!,   // user’s selected "From"
+          ),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please select your departure city first"),
+        ),
+      );
+    }
+  },
+  child: DealCard(
+    city: "Dubai",
+    price: "\$399",
+    imagePath: "assets/flight1.jpg", // ⚠️ remove extra .jpg
+  ),
+),
 
-              child: DealCard(
-                city: "Dubai",
-                price: "\$399",
-                imagePath: "assets/flight1.jpg.jpg",
-              ),
-            ),
             // _dealCard("Istanbul", "\$550", "assets/flight1.jpg.jpg"),
             // _dealCard("Maldives", "\$299", "assets/flight1.jpg.jpg"),
           ]),
@@ -402,6 +400,7 @@ class _HomeContentState extends State<_HomeContent> {
     );
   }
 }
+ String city = city;
 
 class DealCard extends StatefulWidget {
   final String city;
@@ -471,9 +470,9 @@ class _DealCardState extends State<DealCard> {
 class CityDropdown extends StatelessWidget {
   final String label;
   final IconData icon;
-  final List<City> items;
-  final City? selectedItem;
-  final ValueChanged<City?> onChanged;
+  final List<Airport> items;
+  final Airport? selectedItem;
+  final ValueChanged<Airport?>? onChanged;
 
   const CityDropdown({
     super.key,
@@ -486,18 +485,43 @@ class CityDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<City> cities = [
-      City("New York", "🇺🇸"),
-      City("London", "🇬🇧"),
-      City("Dubai", "🇦🇪"),
-      City("Paris", "🇫🇷"),
-      City("Karachi", "🇵🇰"),
-      City("Istanbul", "🇹🇷"),
-      City("Tokyo", "🇯🇵"),
+    final List<Airport> cities = [
+      Airport(city: "New York", flag: "🇺🇸", name: "JFK airport", code: "JFK"),
+      Airport(
+        city: "London",
+        flag: "🇬🇧",
+        name: "London airport",
+        code: "LAP",
+      ),
+      Airport(
+        city: "Dubai",
+        flag: "🇦🇪",
+        name: "Dubai international airport",
+        code: "DIP",
+      ),
+      Airport(
+        city: "Paris",
+        flag: "🇫🇷",
+        name: "Paris France Air",
+        code: "PFA",
+      ),
+      Airport(
+        city: "Karachi",
+        flag: "🇵🇰",
+        name: "karachi international airport",
+        code: "KIA",
+      ),
+      Airport(
+        city: "Istanbul",
+        flag: "🇹🇷",
+        name: "Istanbul airport",
+        code: "IFK",
+      ),
+      Airport(city: "Tokyo", flag: "🇯🇵", name: "Tokyo Japan", code: "TJK"),
     ];
 
-    return DropdownSearch<City>(
-      compareFn: (City? a, City? b) => a?.name == b?.name,
+    return DropdownSearch<Airport>(
+      compareFn: (Airport? a, Airport? b) => a?.name == b?.name,
 
       items: (filter, loadProps) {
         return items;
@@ -509,15 +533,16 @@ class CityDropdown extends StatelessWidget {
 
         itemBuilder: (context, city, isSelected, isDisabled) {
           return ListTile(
-            leading: Text(city.flag, style: const TextStyle(fontSize: 15)),
+            leading: Text(city.flag!, style: const TextStyle(fontSize: 15)),
             // Or Image.asset(city.flag, width: 30) if you want PNG/SVG flags
             title: Text(
-              city.name,
+              "${city.city} - ${city.name}",
               style: TextStyle(fontSize: 16, overflow: TextOverflow.visible),
               maxLines: 1,
               overflow: TextOverflow.visible,
               softWrap: false,
             ),
+            subtitle: Text(city.code),
           );
         },
       ),
@@ -538,7 +563,7 @@ class CityDropdown extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(right: 0),
                 child: Text(
-                  city.name,
+                  city.name!,
                   maxLines: 1,
                   overflow: TextOverflow.fade,
                   softWrap: false,

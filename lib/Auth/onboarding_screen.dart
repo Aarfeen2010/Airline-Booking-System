@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -9,6 +8,7 @@ import 'package:travelex/Widget/Auth/Onboarding/onboarding_slide.dart';
 import 'package:travelex/Widget/Auth/Onboarding/service_card.dart';
 import 'package:travelex/Widget/Auth/Onboarding/social_media_icon.dart';
 import 'dart:async';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:travelex/Widget/Text/poppins.dart';
 import 'package:travelex/Widget/Text/roboto.dart';
@@ -196,7 +196,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             Align(
               alignment: Alignment.center,
               child: Row(
-                spacing: 10,
+                
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SocialMediaIcon(
