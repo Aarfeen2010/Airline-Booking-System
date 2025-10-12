@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "140585881689",
+    "project_id": "travelex-aarfeen",
+    "storage_bucket": "travelex-aarfeen.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140585881689:android:b0abf1540b2e7e88f7e148",
+        "android_client_info": {
+          "package_name": "com.example.travelex_fixed"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDL8QLJ-R8rqPpPnvVsU2w7kGEj035OZsc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

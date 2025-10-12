@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:travelex/Home/booking_screen.dart';
+import 'package:travelex/Home/my_bookings_page.dart';
 import 'package:travelex/Model/airport.dart';
 import 'package:travelex/Widget/Home/HomeScreen/carousel_slide.dart';
 import 'package:travelex/colors.dart';
@@ -32,14 +34,16 @@ class _HomePageState extends State<HomePage> {
   int passengerCount = 1;
 
   final List<Airport> cities = [
-  Airport(city: "New York", flag: "🇺🇸", name: "JFK Airport", code: "JFK"),
-  Airport(city: "London", flag: "🇬🇧", name: "Heathrow", code: "LHR"),
-  Airport(city: "Dubai", flag: "🇦🇪", name: "Dubai Intl", code: "DXB"),
-  Airport(city: "Paris", flag: "🇫🇷", name: "Charles de Gaulle", code: "CDG"),
-  Airport(city: "Karachi", flag: "🇵🇰", name: "Jinnah Intl", code: "KHI"),
-  Airport(city: "Istanbul", flag: "🇹🇷", name: "Istanbul Airport", code: "IST"),
-  Airport(city: "Tokyo", flag: "🇯🇵", name: "Haneda", code: "HND"),
-];
+    Airport(city: "New York", flag: "🇺🇸", name: "JFK Airport", code: "JFK"),
+    Airport(city: "London", flag: "🇬🇧", name: "Heathrow", code: "LHR"),
+    Airport(city: "Dubai", flag: "🇦🇪", name: "Dubai Intl", code: "DXB"),
+    Airport(
+        city: "Paris", flag: "🇫🇷", name: "Charles de Gaulle", code: "CDG"),
+    Airport(city: "Karachi", flag: "🇵🇰", name: "Jinnah Intl", code: "KHI"),
+    Airport(
+        city: "Istanbul", flag: "🇹🇷", name: "Istanbul Airport", code: "IST"),
+    Airport(city: "Tokyo", flag: "🇯🇵", name: "Haneda", code: "HND"),
+  ];
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -62,8 +66,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final pages = [
-      _HomeContent(
+    
+
+    return Container(
+      color: AppColors.background,
+      child: SingleChildScrollView(
+        child:_HomeContent(
         fromCity: selectedFromCity,
         toCity: selectedToCity,
         onFromChanged: (val) => setState(() => selectedFromCity = val),
@@ -75,47 +83,8 @@ class _HomePageState extends State<HomePage> {
         onRemovePassenger: _decrementPassenger,
         cities: cities,
       ),
-      const Center(child: Text("Flights Page")),
-      const Center(child: Text("Offers Page")),
-      const Center(child: Text("Profile Page")),
-    ];
-
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: AppColors.primary,
-        title: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              height: 80,
-              width: 80,
-              child: Image.asset("assets/images/travelex_notext.png"),
-            ),
-            SizedBox(width: 20),
-            Align(
-              alignment: Alignment.center,
-              child: Text(
-                'Travelex',
-                style: TextStyle(
-                  letterSpacing: 1.5,
-                  color: Colors.white,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_none, color: Colors.white),
-            onPressed: () {},
-          ),
-        ],
       ),
-      body: pages[_selectedIndex],
+      
     );
   }
 }
@@ -207,18 +176,17 @@ class _HomeContentState extends State<_HomeContent> {
                     CarouselSlide(
                       image: "hajj.jpg",
                       badge: "Hajj and Umrah packages",
-                      badgeColor: AppColors.accent,
+                      badgeColor: AppColors.primary,
                     ),
                     CarouselSlide(
                       image: "flight1.jpg",
                       badge: "20% off on International flights",
-                      badgeColor: AppColors.secondary,
+                      badgeColor: AppColors.primary,
                     ),
                     CarouselSlide(
-                      image: "dubai.jpg",
-                      badge: "Special fare to Dubai",
-                      badgeColor: Colors.pinkAccent,
-                    ),
+                        image: "dubai.jpg",
+                        badge: "Special fare to Dubai",
+                        badgeColor: AppColors.primary),
                   ],
                   options: CarouselOptions(
                     aspectRatio: 16 / 9,
@@ -230,15 +198,7 @@ class _HomeContentState extends State<_HomeContent> {
                 const SizedBox(height: 16),
 
                 // Buttons row
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    TopButtons(icon: Icons.flight_takeoff, label: "Book Now"),
-                    TopButtons(icon: Icons.check_circle, label: "Check-in"),
-                    TopButtons(icon: Icons.location_on, label: "Track Flight"),
-                    TopButtons(icon: Icons.card_giftcard, label: "Offers"),
-                  ],
-                ),
+                
                 const SizedBox(height: 20),
 
                 // Modern Search flight box
@@ -314,37 +274,40 @@ class _HomeContentState extends State<_HomeContent> {
                               ),
                             ),
                             controller: TextEditingController(
-                              text:
-                                  widget.selectedDate == null
-                                      ? ""
-                                      : "${widget.selectedDate!.day}-${widget.selectedDate!.month}-${widget.selectedDate!.year}",
+                              text: widget.selectedDate == null
+                                  ? ""
+                                  : "${widget.selectedDate!.day}-${widget.selectedDate!.month}-${widget.selectedDate!.year}",
                             ),
                           ),
                         ),
                       ),
                       const SizedBox(height: 20),
+                      ElevatedButton(
+  onPressed: () {
+    if (widget.fromCity != null && widget.toCity != null && widget.selectedDate != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => BookingScreen(
+            departure: widget.fromCity,
+            arrival: widget.toCity,
+            selectedDate: widget.selectedDate,
+            
+          ),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please select all fields")),
+      );
+    }
+  },
+  child: Text("Search Flights"),
+)
+
 
                       // Passenger selector
-                      Row(
-                        children: [
-                          const Icon(Icons.person),
-                          const SizedBox(width: 8),
-                          const Text("Passengers:"),
-                          const Spacer(),
-                          IconButton(
-                            icon: const Icon(Icons.remove_circle_outline),
-                            onPressed: widget.onRemovePassenger,
-                          ),
-                          Text(
-                            widget.passengerCount.toString(),
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.add_circle_outline),
-                            onPressed: widget.onAddPassenger,
-                          ),
-                        ],
-                      ),
+                     
                     ],
                   ),
                 ),
@@ -354,60 +317,58 @@ class _HomeContentState extends State<_HomeContent> {
           // Travel Deals
           _HomeContent._sectionTitle("Travel Deals"),
           _HomeContent._horizontalDeals([
-            GestureDetector(
-  onTap: () {
-    final dubai = widget.cities.firstWhere(
-      (a) => a.city == "Dubai",
-      orElse: () => widget.cities.first,
-    );
+            _travelDeals("Dubai", "assets/images/dubai.jpg"),
+            _travelDeals("Karachi",  "assets/images/karachi.jpg"),
+            _travelDeals("New York", "assets/images/new_york.jpg")
 
-    if (widget.fromCity != null) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => BookingScreen(
-            arrival: dubai,                // always Dubai for this deal
-            departure: widget.fromCity!,   // user’s selected "From"
-          ),
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Please select your departure city first"),
-        ),
-      );
-    }
-  },
-  child: DealCard(
-    city: "Dubai",
-    price: "\$399",
-    imagePath: "assets/flight1.jpg", // ⚠️ remove extra .jpg
-  ),
-),
-
-            // _dealCard("Istanbul", "\$550", "assets/flight1.jpg.jpg"),
-            // _dealCard("Maldives", "\$299", "assets/flight1.jpg.jpg"),
           ]),
-          _HomeContent._sectionTitle("Top Picks for You"),
-          // _horizontalDeals([
-          //   _dealCard("Paris", "\$450", "assets/flight1.jpg"),
-          //   _dealCard("Rome", "\$350", "assets/flight1.jpg.jpg"),
-          // ]),
+          
           const SizedBox(height: 24),
         ],
       ),
     );
   }
+  Widget _travelDeals(String cityName, String imgPath) {
+    return GestureDetector(
+              onTap: () {
+                final dubai = widget.cities.firstWhere(
+                  (a) => a.city == cityName,
+                  orElse: () => widget.cities.first,
+                );
+
+                if (widget.fromCity != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BookingScreen(
+                        arrival: dubai, // always Dubai for this deal
+                        departure: widget.fromCity!, // user’s selected "From"
+                      ),
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Please select your departure city first"),
+                    ),
+                  );
+                }
+              },
+              child: DealCard(
+                city: cityName,
+                imagePath: imgPath, // ⚠️ remove extra .jpg
+              ),
+            );
+  }
 }
- String city = city;
+
+String city = city;
 
 class DealCard extends StatefulWidget {
   final String city;
-  final String price;
   final String imagePath;
 
-  DealCard({required this.city, required this.price, required this.imagePath});
+  DealCard({required this.city,  required this.imagePath});
   @override
   State<DealCard> createState() => _DealCardState();
 }
@@ -447,14 +408,7 @@ class _DealCardState extends State<DealCard> {
                     fontSize: 16,
                   ),
                 ),
-                Text(
-                  widget.price,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                  ),
-                ),
+                
               ],
             ),
           ),
@@ -518,19 +472,21 @@ class CityDropdown extends StatelessWidget {
         code: "IFK",
       ),
       Airport(city: "Tokyo", flag: "🇯🇵", name: "Tokyo Japan", code: "TJK"),
+      Airport(
+          code: "LHE",
+          name: "Allama Iqbal International Airport",
+          city: "Lahore",
+          flag: "🇵🇰")
     ];
 
     return DropdownSearch<Airport>(
       compareFn: (Airport? a, Airport? b) => a?.name == b?.name,
-
       items: (filter, loadProps) {
         return items;
       },
-
       popupProps: PopupProps.menu(
         showSearchBox: true,
         fit: FlexFit.loose,
-
         itemBuilder: (context, city, isSelected, isDisabled) {
           return ListTile(
             leading: Text(city.flag!, style: const TextStyle(fontSize: 15)),
@@ -546,15 +502,12 @@ class CityDropdown extends StatelessWidget {
           );
         },
       ),
-
       decoratorProps: DropDownDecoratorProps(
         decoration: InputDecoration(
           prefixIcon: Icon(icon),
-
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
         ),
       ),
-
       dropdownBuilder: (context, city) {
         if (city == null) return Text(label, overflow: TextOverflow.visible);
         return Row(
@@ -574,7 +527,6 @@ class CityDropdown extends StatelessWidget {
           ],
         );
       },
-
       selectedItem: selectedItem,
       onChanged: onChanged,
     );
@@ -584,8 +536,9 @@ class CityDropdown extends StatelessWidget {
 class TopButtons extends StatefulWidget {
   final IconData icon;
   final String label;
+  final void Function()? onTap;
 
-  TopButtons({required this.icon, required this.label});
+  TopButtons({required this.icon, required this.label, this.onTap});
   @override
   State<TopButtons> createState() => _TopButtonsState();
 }
@@ -596,21 +549,10 @@ class _TopButtonsState extends State<TopButtons> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        MouseRegion(
-          cursor: SystemMouseCursors.click,
-          onHover: (event) {
-            setState(() {
-              isHovered = true;
-            });
-          },
-          onExit: (event) {
-            setState(() {
-              isHovered = false;
-            });
-          },
-
+        GestureDetector(
+          onTap: widget.onTap,
           child: CircleAvatar(
-            backgroundColor: isHovered ? AppColors.accent : AppColors.secondary,
+            backgroundColor: AppColors.secondary,
             child: Icon(widget.icon, color: Colors.white),
           ),
         ),
@@ -628,299 +570,6 @@ class _TopButtonsState extends State<TopButtons> {
   }
 }
 
-class DestinationScreen extends StatelessWidget {
-  const DestinationScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // Hero Section with background image + overlay
-            Stack(
-              children: [
-                Container(
-                  height: 280,
-                  decoration: const BoxDecoration(
-                    // image: DecorationImage(
-                    //   image: AssetImage("assets/dubai_bg.jpg"), // your bg
-                    //   fit: BoxFit.cover,
-                    // ),
-                  ),
-                ),
-                Container(
-                  height: 280,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.black.withOpacity(0.5),
-                        Colors.black.withOpacity(0.2),
-                      ],
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 70,
-                  left: 20,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                        "DUBAI",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 36,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        "The City of Gold",
-                        style: TextStyle(color: Colors.white70, fontSize: 18),
-                      ),
-                    ],
-                  ),
-                ),
-                // Floating search card
-                Positioned(
-                  bottom: -40,
-                  left: 20,
-                  right: 20,
-                  child: Card(
-                    elevation: 8,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: const [
-                              Expanded(
-                                child: ListTile(
-                                  leading: Icon(Icons.flight_takeoff),
-                                  title: Text("From"),
-                                  subtitle: Text("New York"),
-                                ),
-                              ),
-                              Icon(Icons.arrow_forward, color: Colors.grey),
-                              Expanded(
-                                child: ListTile(
-                                  leading: Icon(Icons.flight_land),
-                                  title: Text("To"),
-                                  subtitle: Text("Dubai"),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: const [
-                              Expanded(
-                                child: ListTile(
-                                  leading: Icon(Icons.calendar_today),
-                                  title: Text("Date"),
-                                  subtitle: Text("May 10"),
-                                ),
-                              ),
-                              Expanded(
-                                child: ListTile(
-                                  leading: Icon(Icons.person),
-                                  title: Text("Passengers"),
-                                  subtitle: Text("1 Passenger"),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 12),
-                          ElevatedButton.icon(
-                            onPressed: () {},
-                            icon: const Icon(Icons.search),
-                            label: const Text("Search Flights"),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue,
-                              minimumSize: const Size(double.infinity, 50),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
 
-            const SizedBox(height: 60),
 
-            // Flight Deals Section
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Flight Deals",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  Card(
-                    elevation: 4,
-                    child: ListTile(
-                      leading: const Icon(
-                        Icons.local_airport,
-                        color: Colors.deepPurple,
-                      ),
-                      title: const Text("From \$320 — London to Dubai"),
-                      subtitle: const Text("5h 30m, nonstop"),
-                      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                      onTap: () {},
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // Top Attractions
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    "Top Attractions",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              height: 120,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                children: [
-                  // _attractionCard("assets/burj.jpg", "Burj Khalifa"),
-                  // _attractionCard("assets/desert.jpg", "Desert Safari"),
-                  // _attractionCard("assets/marina.jpg", "Dubai Marina"),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // About City
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    "About the City",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    "Dubai is known for its modern architecture, luxury shopping — "
-                    "and vibrant nightlife. Experience the futuristic skyline and "
-                    "the unique blend of tradition and innovation.",
-                    style: TextStyle(color: Colors.black87, height: 1.4),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // Hotels Section
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    "Hotels",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 10),
-            ListTile(
-              leading: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                // child: Image.asset(
-                //   "assets/atlantis.jpg",
-                //   width: 60,
-                //   height: 60,
-                //   fit: BoxFit.cover,
-                // ),
-              ),
-              title: const Text("Atlantis, The Palm"),
-              subtitle: const Text("\$239 / night"),
-              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                // child: Image.asset(
-                //   "assets/jumeirah.jpg",
-                //   width: 60,
-                //   height: 60,
-                //   fit: BoxFit.cover,
-                // ),
-              ),
-              title: const Text("Jumeirah"),
-              subtitle: const Text("\$350 / night"),
-              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-              onTap: () {},
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // Reusable attraction card
-  static Widget _attractionCard(String image, String title) {
-    return Container(
-      margin: const EdgeInsets.only(right: 12),
-      width: 120,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        image: DecorationImage(image: AssetImage(image), fit: BoxFit.cover),
-      ),
-      child: Container(
-        alignment: Alignment.bottomCenter,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          gradient: LinearGradient(
-            colors: [Colors.black.withOpacity(0.6), Colors.transparent],
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Text(
-            title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}

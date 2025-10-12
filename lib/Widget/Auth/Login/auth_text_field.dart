@@ -5,7 +5,7 @@ class AuthTextField extends StatefulWidget {
   final TextInputType keyboardType;
   final bool obscureText;
   final String labelText;
-  final Color iconColor;
+  final Color? iconColor;
   final Color? fillColor;
   final IconData icon;
   final double? borderRadius;
@@ -15,7 +15,7 @@ class AuthTextField extends StatefulWidget {
     required this.keyboardType,
     required this.obscureText,
     required this.labelText,
-    required this.iconColor,
+     this.iconColor,
     this.fillColor,
     required this.icon,
     this.borderRadius,
@@ -51,7 +51,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
         ),
         labelText: widget.labelText,
         labelStyle: TextStyle(color: widget.labelColor ?? Colors.white),
-        prefixIcon: Icon(widget.icon, color: widget.iconColor),
+        prefixIcon: Icon(widget.icon, color: widget.iconColor ?? Colors.red.shade300),
         suffixIcon:
             widget.obscureText
                 ? IconButton(
@@ -67,7 +67,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
                 : null,
 
         floatingLabelBehavior: FloatingLabelBehavior.never,
-        fillColor: widget.fillColor ?? AppColors.text.withOpacity(0.3),
+        fillColor: widget.fillColor ?? Colors.white.withOpacity(0.15),
         filled: true,
       ),
     );

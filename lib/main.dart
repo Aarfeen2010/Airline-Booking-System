@@ -12,7 +12,9 @@ import 'package:travelex/Home/home.dart';
 import 'package:travelex/Home/home_screen.dart';
 import 'package:travelex/colors.dart';
 
-void main() {
+
+void main() async {
+  
   runApp(const MyApp());
 }
 
@@ -54,7 +56,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
          
-          home: Home(),
+          home: SplashScreen(),
         );
       },
     );

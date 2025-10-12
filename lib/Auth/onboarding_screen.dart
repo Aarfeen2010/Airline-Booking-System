@@ -1,17 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:travelex/Auth/signup_page.dart';
-import 'package:travelex/Widget/Auth/Onboarding/onboarding_slide.dart';
-import 'package:travelex/Widget/Auth/Onboarding/service_card.dart';
-import 'package:travelex/Widget/Auth/Onboarding/social_media_icon.dart';
-import 'dart:async';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import 'package:travelex/Widget/Text/poppins.dart';
-import 'package:travelex/Widget/Text/roboto.dart';
+import 'package:travelex/Home/home.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -20,249 +10,173 @@ class OnboardingScreen extends StatefulWidget {
   State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
-final List<ServicesCard> _cards = [
-  ServicesCard(
-    image: "assets/images/lunch.jpg",
-    title: "Lunch Break",
-    description:
-        "Experience a satisfying in-flight lunch service, crafted for comfort and taste during your journey.",
-  ),
-  ServicesCard(
-    image: "assets/images/wifi.jpg",
-    title: "Wifi and entertainment",
-    description:
-        "Stay connected throughout your journey with fast and reliable in-flight Wi-Fi, allowing you to browse, chat, or work seamlessly above the clouds.",
-  ),
-  ServicesCard(
-    image: "assets/images/baggage.jpg",
-    title: "Baggage Transportation",
-    description:
-        "Travel stress-free with our secure baggage transportation service, ensuring your luggage is safely handled from check-in to your final destination.",
-  ),
-  ServicesCard(
-    image: "assets/images/travel_info.jpg",
-    title: "Travel Information",
-    description:
-        "Access essential travel information at your fingertips, including flight details, airport guides, visa requirements, and more to make your journey smooth and worry-free.",
-  ),
-  ServicesCard(
-    image: "assets/images/seat.jpg",
-    title: "Seat Selection",
-    description:
-        "Choose your preferred seat in advance and enjoy the comfort and convenience of traveling exactly the way you like.",
-  ),
-  ServicesCard(
-    image: "assets/images/payment.jpg",
-    title: "Easy Payments",
-    description:
-        "Book flights securely with multiple payment options, offering a smooth and flexible checkout process.",
-  ),
-];
-
-final List<OnboardingSlide> _slides = [
-  OnboardingSlide(
-    image: 'assets/images/flight1.jpg',
-    text: "Book Flights\n With Ease",
-    textColor: Color(0xff3d495d),
-  ),
-  OnboardingSlide(
-    image: "assets/images/flight2.jpg",
-    text: "Track Your \n     Flights",
-    textColor: Color(0xff3d495d),
-  ),
-  OnboardingSlide(
-    image: "assets/images/flight_3.jpg",
-    text: "Enjoy hassle-free\n journeys",
-    textColor: Color(0xff3d495d),
-  ),
-];
-
-PageController pageController = PageController();
-int _currentPage = 0;
-final int _numPages = _slides.length;
-
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  Color? color;
+  final PageController _controller = PageController();
+  int _currentPage = 0;
+  bool _isLastPage = false;
+  bool isLoading = false;
+
+  final List<Map<String, String>> _slides = [
+    {
+      "icon": "✈️",
+      "title": "Discover The World",
+      "subtitle": "Book flights with ease and explore new destinations with Travelex.",
+    },
+    {
+      "icon": "🌍",
+      "title": "Smart & Simple Booking",
+      "subtitle": "Plan your journey with smart search, best deals, and fast checkout.",
+    },
+    {
+      "icon": "🧳",
+      "title": "Your Travel Companion",
+      "subtitle": "Track bookings, get instant updates, and manage your trips effortlessly.",
+    },
+  ];
 
   @override
   void initState() {
     super.initState();
-    Timer.periodic(Duration(seconds: 3), (Timer timer) {
-      if (_currentPage < _numPages) {
-        _currentPage++;
-      } else {
-        _currentPage = 0;
-      }
-
-      pageController.animateToPage(
-        _currentPage,
-
-        duration: Duration(seconds: 3),
-        curve: Curves.easeInOut,
-      );
-    });
-    pageController.addListener(() {
-      final page = pageController.page?.round() ?? 0;
-      if (page != _currentPage) {
-        setState(() => _currentPage = page);
-      }
-    });
+    _autoSlide();
   }
 
-  _OnboardingScreenState();
+  void _autoSlide() async {
+    // Automatically move pages every 3 seconds until the last page
+    while (mounted) {
+      await Future.delayed(const Duration(seconds: 3));
+      if (_currentPage < _slides.length - 1) {
+        _controller.nextPage(
+          duration: const Duration(milliseconds: 600),
+          curve: Curves.easeInOut,
+        );
+      } else {
+        setState(() => _isLastPage = true);
+        break;
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    int crossAxisCount;
-    double childAspectRatio;
-    if (width >= 1500) {
-      crossAxisCount = 3;
-      childAspectRatio = 4 / 5;
-    } else if (width >= 700) {
-      crossAxisCount = 2;
-      childAspectRatio = 3 / 4;
-    } else {
-      crossAxisCount = 1;
-      childAspectRatio = 1.5 / 1; // more horizontal for small screens
-    }
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
+      body: SafeArea(
         child: Column(
           children: [
-            Container(
-              height: 50.h,
-              constraints: BoxConstraints(minHeight: 200, maxHeight: 400),
-              child: PageView(controller: pageController, children: _slides),
-            ),
-            SizedBox(height: 20),
-            Align(
-              alignment: Alignment.center,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(_numPages, (index) {
+            Expanded(
+              child: PageView.builder(
+                controller: _controller,
+                itemCount: _slides.length,
+                onPageChanged: (index) {
+                  setState(() {
+                    _currentPage = index;
+                    _isLastPage = index == _slides.length - 1;
+                  });
+                },
+                itemBuilder: (context, index) {
+                  final slide = _slides[index];
                   return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        width: _currentPage == index ? 12 : 8,
-                        height: _currentPage == index ? 12 : 8,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color:
-                              _currentPage == index
-                                  ? Colors.blueAccent
-                                  : Colors.grey,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AnimatedScale(
+                          scale: 1.0,
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeOutBack,
+                          child: Text(slide["icon"]!,
+                              style: const TextStyle(fontSize: 90)),
                         ),
-                      ),
-                    ),
-                  );
-                }),
-              ),
-            ),
-            SizedBox(height: 40),
-            Align(
-              alignment: Alignment.center,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Poppins(
-                  text: "Our Services",
-
-                  fontSize: 30,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xff4FC3F7),
-                ),
-              ),
-            ),
-            SizedBox(height: 40),
-            Padding(
-              padding: EdgeInsets.all(2.w),
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: crossAxisCount,
-                  crossAxisSpacing: 2.w,
-                  mainAxisSpacing: 2.h,
-                  childAspectRatio: childAspectRatio,
-                ),
-                itemCount: _cards.length,
-                itemBuilder: (context, index) => _cards[index],
-              ),
-            ),
-            SizedBox(height: 20),
-            Align(
-              alignment: Alignment.center,
-              child: Row(
-                
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SocialMediaIcon(
-                    icon: FontAwesomeIcons.squareXTwitter,
-                    newColor: Colors.black,
-                  ),
-                  SocialMediaIcon(icon: FontAwesomeIcons.twitter),
-                  SocialMediaIcon(
-                    newColor: const Color.fromARGB(255, 2, 65, 173),
-
-                    icon: FontAwesomeIcons.linkedin,
-                  ),
-                  SocialMediaIcon(
-                    newColor: Colors.deepPurple,
-                    icon: FontAwesomeIcons.instagram,
-                  ),
-                  SocialMediaIcon(
-                    icon: FontAwesomeIcons.youtube,
-                    newColor: Colors.red,
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 40),
-
-            MouseRegion(
-              onHover: (event) {
-                setState(() {
-                  color = Color(0xff4FC3F7);
-                });
-              },
-              onExit: (event) {
-                setState(() {
-                  color = Color(0xffFF7043);
-                });
-              },
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.zero),
-                    ),
-                  ),
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                    color ?? Color(0xffFF7043),
-                  ),
-                  fixedSize: MaterialStateProperty.all<Size>(Size(200, 50)),
-                ),
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    PageTransition(
-                      type: PageTransitionType.fade,
-                      child: SignUpPage(),
+                        const SizedBox(height: 40),
+                        Text(
+                          slide["title"]!,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.indigo.shade900,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          slide["subtitle"]!,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey.shade700,
+                            height: 1.5,
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 },
-                child: Poppins(
-                  text: "Sign Up",
-                  color: Colors.white,
-                  fontSize: 19,
-                  fontWeight: FontWeight.w500,
-                ),
               ),
             ),
-            SizedBox(height: 30),
+
+            // Dots Indicator
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(_slides.length, (index) {
+                return AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 6, vertical: 12),
+                  height: 10,
+                  width: _currentPage == index ? 24 : 10,
+                  decoration: BoxDecoration(
+                    color: _currentPage == index
+                        ? Colors.indigo
+                        : Colors.red.shade300.withOpacity(0.4),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                );
+              }),
+            ),
+
+            // Buttons
+            Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.indigo,
+                      minimumSize: const Size(double.infinity, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: ()async  {
+                      setState(() {
+                        isLoading = true;
+                      });
+                      await Future.delayed(Duration(seconds: 2));
+                      // Navigate to home or signup
+                      Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: SignUpPage()));
+                    },
+                    child: isLoading ? Container(
+                      width: 26,
+                      height: 26,
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                        strokeWidth: 3,
+                        
+                      
+                      ),
+                    ) : 
+                     Text(
+                      "Get Started",
+                      style: TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  
+                ],
+              ),
+            ),
           ],
         ),
       ),
