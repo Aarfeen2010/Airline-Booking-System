@@ -95,7 +95,7 @@ class _BookingScreenState extends State<BookingScreen> {
     required int kids,
     required String cabinClass,
   }) async {
-    const apiKey = "68eba6657b9f3c9347e5f85a";
+    const apiKey = "YOUR-API-KEY";
 
     final url = Uri.parse(
         "https://api.flightapi.io/onewaytrip/$apiKey/$depIata/$arrIata/$date/$adults/$kids/0/$cabinClass/USD");
