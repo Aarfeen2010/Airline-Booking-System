@@ -25,7 +25,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    "Aarfeen Khatri",
+                    "Aarfeen Khatri & Ehsan Afridi",
                     style: GoogleFonts.poppins(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,

@@ -1,15 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:travelex/Auth/create_password.dart';
-import 'package:travelex/Auth/forgot_password_page.dart';
-import 'package:travelex/Auth/login_page.dart';
-import 'package:travelex/Auth/onboarding_screen.dart';
-import 'package:travelex/Auth/otp_page.dart';
-import 'package:travelex/Auth/signup_page.dart';
 import 'package:travelex/Auth/splash_screen.dart';
-import 'package:travelex/Home/booking_screen.dart';
-import 'package:travelex/Home/home.dart';
-import 'package:travelex/Home/home_screen.dart';
 import 'package:travelex/colors.dart';
 
 

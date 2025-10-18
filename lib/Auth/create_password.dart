@@ -7,6 +7,8 @@ import 'package:travelex/Widget/Text/poppins.dart';
 import 'package:travelex/colors.dart';
 
 class CreatePasswordPage extends StatefulWidget {
+  const CreatePasswordPage({super.key});
+
   @override
   State<CreatePasswordPage> createState() => _CreatePasswordPageState();
 }

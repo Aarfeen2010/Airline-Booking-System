@@ -6,7 +6,7 @@ class CarouselSlide extends StatelessWidget {
   final String badge;
   final Color badgeColor;
 
-  CarouselSlide({
+  const CarouselSlide({super.key, 
     required this.image,
     required this.badge,
     required this.badgeColor,
@@ -16,7 +16,7 @@ class CarouselSlide extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: const BorderRadius.all(Radius.circular(30)),
-      child: Container(
+      child: SizedBox(
         height: 180,
         width: double.infinity,
         child: Stack(

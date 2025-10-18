@@ -5,7 +5,7 @@ class OnboardingSlide extends StatelessWidget {
   final String? title;
   final String? subtitle;
 
-  OnboardingSlide({ required this.icon, required this.title, required this.subtitle});
+  const OnboardingSlide({super.key,  required this.icon, required this.title, required this.subtitle});
 
 
   @override

@@ -157,7 +157,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       // Navigate to home or signup
                       Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: SignUpPage()));
                     },
-                    child: isLoading ? Container(
+                    child: isLoading ? SizedBox(
                       width: 26,
                       height: 26,
                       child: CircularProgressIndicator(

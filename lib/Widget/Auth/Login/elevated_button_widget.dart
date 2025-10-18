@@ -7,7 +7,7 @@ class ElevatedButtonWidget extends StatefulWidget {
   final String snackbarText;
   final void Function()? onPressed;
 
-  ElevatedButtonWidget({
+  ElevatedButtonWidget({super.key, 
     required this.buttonText,
     required this.snackbarText,
     this.onPressed,

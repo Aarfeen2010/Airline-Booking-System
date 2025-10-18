@@ -71,7 +71,7 @@ class _SeatSelectionPageState extends State<SeatSelectionPage> {
                             ...seatLetters.sublist(0, 3).map((letter) {
                               String seatId = '$letter$rowNumber';
                               return _buildSeat(seatId);
-                            }).toList(),
+                            }),
         
                             const SizedBox(width: 25), // Aisle space
         
@@ -79,7 +79,7 @@ class _SeatSelectionPageState extends State<SeatSelectionPage> {
                             ...seatLetters.sublist(3, 6).map((letter) {
                               String seatId = '$letter$rowNumber';
                               return _buildSeat(seatId);
-                            }).toList(),
+                            }),
                           ],
                         ),
                       );

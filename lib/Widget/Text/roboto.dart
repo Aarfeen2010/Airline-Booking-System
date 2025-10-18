@@ -35,7 +35,7 @@ class Roboto extends StatelessWidget {
   final TextStyle? textStyle;
   final double? wordSpacing;
 
-  Roboto({
+  const Roboto({super.key, 
     required this.text,
     this.strutStyle,
     this.textAlign,

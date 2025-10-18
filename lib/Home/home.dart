@@ -4,7 +4,6 @@ import 'package:travelex/Home/profile_screen.dart';
 import 'home_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:travelex/Home/booking_screen.dart';
-import 'package:travelex/Home/home_screen.dart';
 import 'package:travelex/colors.dart';
 
 class Home extends StatefulWidget {

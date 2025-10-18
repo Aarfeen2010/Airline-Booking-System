@@ -7,6 +7,8 @@ import 'package:travelex/Widget/Text/poppins.dart';
 import 'package:travelex/colors.dart';
 
 class OtpPage extends StatefulWidget {
+  const OtpPage({super.key});
+
   @override
   State<OtpPage> createState() => _OtpPageState();
 }

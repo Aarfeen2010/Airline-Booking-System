@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primary,
-      body: Container(
+      body: SizedBox(
         height: 100.h,
         child: Center(child: Image.asset("assets/images/travelex_logo.png")),
       ),

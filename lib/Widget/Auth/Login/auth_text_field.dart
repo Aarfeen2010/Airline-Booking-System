@@ -11,7 +11,7 @@ class AuthTextField extends StatefulWidget {
   final double? borderRadius;
   final Color? textColor;
   final Color? labelColor;
-  AuthTextField({
+  const AuthTextField({super.key, 
     required this.keyboardType,
     required this.obscureText,
     required this.labelText,

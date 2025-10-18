@@ -7,7 +7,7 @@ class AppbarWidget extends StatelessWidget {
   final FontWeight? fontWeight;
   final Color? bgColor;
 
-  AppbarWidget({required this.text, this.fontWeight, this.bgColor});
+  const AppbarWidget({super.key, required this.text, this.fontWeight, this.bgColor});
 
   @override
   Widget build(BuildContext context) {

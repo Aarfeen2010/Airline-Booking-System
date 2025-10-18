@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:travelex/Home/booking_screen.dart';
 import 'package:travelex/Home/home.dart';
-import 'package:travelex/Home/home_screen.dart';
 import 'package:travelex/colors.dart';
 
 class BookingSummaryPage extends StatelessWidget {

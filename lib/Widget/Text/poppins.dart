@@ -35,7 +35,7 @@ class Poppins extends StatelessWidget {
   final TextStyle? textStyle;
   final double? wordSpacing;
 
-  Poppins({
+  const Poppins({super.key, 
     required this.text,
     this.strutStyle,
     this.textAlign,

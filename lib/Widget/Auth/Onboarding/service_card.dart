@@ -107,12 +107,12 @@ class _ServicesCardState extends State<ServicesCard> {
                     child: ElevatedButton(
                       style: ButtonStyle(
                         shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                            WidgetStateProperty.all<RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.zero,
                               ),
                             ),
-                        backgroundColor: MaterialStateProperty.all<Color>(
+                        backgroundColor: WidgetStateProperty.all<Color>(
                           Color(0xff8BC34A),
                         ),
                       ),

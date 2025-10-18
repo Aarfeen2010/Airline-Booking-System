@@ -9,6 +9,8 @@ import 'package:travelex/Widget/Text/roboto.dart';
 import 'package:travelex/colors.dart';
 
 class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
+
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }

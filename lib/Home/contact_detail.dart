@@ -45,12 +45,6 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.flight == null) {
-      return const Scaffold(
-        body: Center(child: Text("❌ Flight data missing")),
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(title: const Text("Contact Details")),
       body: SingleChildScrollView(
@@ -135,7 +129,7 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
               // --- Nationality ---
               DropdownButtonFormField<String>(
   decoration: const InputDecoration(labelText: 'Nationality'),
-  value: nationality,
+  initialValue: nationality,
   items: [
     {'name': 'Pakistan', 'flag': '🇵🇰'},
     {'name': 'India', 'flag': '🇮🇳'},

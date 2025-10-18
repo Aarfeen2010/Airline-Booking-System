@@ -26,7 +26,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
+  final int _selectedIndex = 0;
 
   Airport? selectedFromCity;
   Airport? selectedToCity;
@@ -368,7 +368,7 @@ class DealCard extends StatefulWidget {
   final String city;
   final String imagePath;
 
-  DealCard({required this.city,  required this.imagePath});
+  const DealCard({super.key, required this.city,  required this.imagePath});
   @override
   State<DealCard> createState() => _DealCardState();
 }
@@ -489,7 +489,7 @@ class CityDropdown extends StatelessWidget {
         fit: FlexFit.loose,
         itemBuilder: (context, city, isSelected, isDisabled) {
           return ListTile(
-            leading: Text(city.flag!, style: const TextStyle(fontSize: 15)),
+            leading: Text(city.flag, style: const TextStyle(fontSize: 15)),
             // Or Image.asset(city.flag, width: 30) if you want PNG/SVG flags
             title: Text(
               "${city.city} - ${city.name}",
@@ -516,7 +516,7 @@ class CityDropdown extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(right: 0),
                 child: Text(
-                  city.name!,
+                  city.name,
                   maxLines: 1,
                   overflow: TextOverflow.fade,
                   softWrap: false,
@@ -538,7 +538,7 @@ class TopButtons extends StatefulWidget {
   final String label;
   final void Function()? onTap;
 
-  TopButtons({required this.icon, required this.label, this.onTap});
+  const TopButtons({super.key, required this.icon, required this.label, this.onTap});
   @override
   State<TopButtons> createState() => _TopButtonsState();
 }
