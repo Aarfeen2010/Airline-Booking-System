@@ -1,16 +1,37 @@
-# travelex_fixed
+# ✈️ Airline Booking System – Flutter App
 
-A new Flutter project.
+A modern, elegant, and fully-featured **airline ticket booking application** built with **Flutter**.  
+Designed with a clean UI, smooth navigation, and a complete flight search & booking flow, this project showcases **real-world app architecture** and **state management**.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🚀 Core Features
 
-A few resources to get you started if this is your first Flutter project:
+### 🔎 Flight Search
+- Search flights using **origin**, **destination**, and **date**
+- Dynamic, real-time **flight list UI**
+- Reusable & clean **FlightCard widget**
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 📅 Flight Details
+- Airline info, timings, duration, and pricing
+- Seat availability indicators
+- Well-structured detail layout for quick readability
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 🧾 Booking System
+- Select your preferred flight
+- Add passenger details safely and quickly
+- Confirm bookings with a professional **summary screen**
+- Auto-generated **ticket-style confirmation** view
+
+### 🎨 Beautiful & Responsive UI
+- Modern Flutter UI design
+- Smooth transitions & animations
+- Fully responsive for all screen sizes
+- Consistent color theme and typography
+
+---
+
+## ⚙️ Tech Stack
+- **Flutter (Dart)** – Cross-platform development
+- **Backend/Data:** Firebase   
+- **Custom Widgets** for flight cards, form inputs, and buttons
